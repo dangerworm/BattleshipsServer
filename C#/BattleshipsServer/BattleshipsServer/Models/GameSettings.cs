@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BattleshipsServer.Models
 {
-    public class GameSettings
+    public class GameSettings : TournamentSettings
     {
         public Guid GameId { get; set; }
-        public string Game { get; set; }
-        public string Variation { get; set; }
-        public GameBoardSettings GameBoardSettings { get; set; }
+        
+        public IEnumerable<Guid> ParticipantIds { get; set; }
     }
 }

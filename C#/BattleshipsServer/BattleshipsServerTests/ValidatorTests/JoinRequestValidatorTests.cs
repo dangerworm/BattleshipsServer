@@ -5,36 +5,52 @@ using BattleshipsServer.Models;
 
 namespace BattleshipsServerTests.ValidatorTests
 {
-    public class GameParticipantValidatorTests
+    public class ParticipantValidatorTests
     {
-        private GameParticipantValidator _GameParticipantValidator;
+        private ParticipantValidator _participantValidator;
 
         [SetUp]
         public void Setup()
         {
-            _GameParticipantValidator = new GameParticipantValidator();
+            _participantValidator = new ParticipantValidator();
         }
 
         [Test]
-        public void GameParticipantValidatorReturnsInvalidIfGameParticipantIsNull()
+        public void ParticipantValidatorReturnsInvalidIfParticipantIsNull()
         {
-            var result = _GameParticipantValidator.Validate(null);
+            var result = _participantValidator.Validate(null);
 
             Assert.Greater(result.Errors.Count(e => e.Contains("null")), 0);
             Assert.AreEqual(result.IsValid, false);
         }
 
         [Test]
-        public void GameParticipantValidatorReturnsInvalidIfGameParticipantNameIsNullOrEmpty()
+        public void ParticipantValidatorReturnsInvalidIfParticipantNameIsNullOrEmpty()
         {
-            var GameParticipant = new GameParticipant
+            var participant = new Participant
             {
-                Name = ""
+                Name = "",
+                IpAddress = "1.2.3.4"
             };
 
-            var result = _GameParticipantValidator.Validate(GameParticipant);
+            var result = _participantValidator.Validate(participant);
 
             Assert.Greater(result.Errors.Count(e => e.Contains("Name")), 0);
+            Assert.False(result.IsValid);
+        }
+
+        [Test]
+        public void ParticipantValidatorReturnsInvalidIfParticipantIpAddressIsNullOrEmpty()
+        {
+            var participant = new Participant
+            {
+                Name = "Test",
+                IpAddress = ""
+            };
+
+            var result = _participantValidator.Validate(participant);
+
+            Assert.Greater(result.Errors.Count(e => e.Contains("IpAddress")), 0);
             Assert.False(result.IsValid);
         }
     }

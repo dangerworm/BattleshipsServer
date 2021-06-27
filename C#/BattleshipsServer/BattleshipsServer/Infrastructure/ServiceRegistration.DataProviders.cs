@@ -16,7 +16,7 @@ namespace BattleshipsServer.Infrastructure
 
         public static IServiceCollection AddGameParticipantDataProvider(this IServiceCollection services)
         {
-            return services.AddSingleton<IDataProvider<GameParticipant>, GameParticipantDataProvider>();
+            return services.AddSingleton<IDataProvider<Participant>, ParticipantDataProvider>();
         }
 
         public static IServiceCollection AddGameSettingsDataProvider(this IServiceCollection services)

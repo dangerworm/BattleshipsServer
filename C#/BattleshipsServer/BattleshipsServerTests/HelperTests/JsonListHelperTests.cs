@@ -1,4 +1,5 @@
-﻿using BattleshipsServer.Helpers;
+﻿using System;
+using BattleshipsServer.Helpers;
 using BattleshipsServer.Models;
 using NUnit.Framework;
 using System.Text.Json;
@@ -12,7 +13,7 @@ namespace BattleshipsServerTests.HelperTests
         {
             var gameParticipants = new[]
             {
-                new GameParticipant
+                new Participant
                 {
                     Name = "TestName",
                     IpAddress = "1.2.3.4"
@@ -34,7 +35,7 @@ namespace BattleshipsServerTests.HelperTests
         {
             var gameParticipants = new[]
             {
-                new GameParticipant
+                new Participant
                 {
                     Name = "TestName",
                     IpAddress = "1.2.3.4"
@@ -46,7 +47,7 @@ namespace BattleshipsServerTests.HelperTests
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
 
-            var result = JsonListHelper.RemoveItem<GameParticipant>(input, item => true);
+            var result = JsonListHelper.RemoveItem<Participant>(input, item => true);
 
             Assert.AreEqual(result, "[]");
         }

@@ -36,10 +36,10 @@ namespace BattleshipsServerTests.DataTests
         public async Task LoadUsesCorrectPath()
         {
             _mockLocalDataStore.Setup(x => x.Load(It.IsAny<string>())).ReturnsAsync("");
-            var classUnderTest = new GameParticipantDataProvider(_mockLocalDataStore.Object);
-            var expectedPath = Path.Combine("battleships", "game-participants.json");
+            var classUnderTest = new ParticipantDataProvider(_mockLocalDataStore.Object);
+            var expectedPath = Path.Combine("battleships", "participants.json");
 
-            await classUnderTest.AddItem(new GameParticipant());
+            await classUnderTest.AddItem(new Participant());
 
             _mockLocalDataStore.Verify(x => x.Load(It.Is<string>(s => s == expectedPath)), Times.Once());
         }
@@ -47,10 +47,10 @@ namespace BattleshipsServerTests.DataTests
         [Test]
         public async Task AddItemAddsItem()
         {
-            var classUnderTest = new GameParticipantDataProvider(_mockLocalDataStore.Object);
+            var classUnderTest = new ParticipantDataProvider(_mockLocalDataStore.Object);
             var gameParticipants = new[]
             {
-                new GameParticipant
+                new Participant
                 {
                     Name = "TestName",
                     IpAddress = "1.2.3.4"
@@ -68,10 +68,10 @@ namespace BattleshipsServerTests.DataTests
         [Test]
         public async Task RemoveItemRemovesItem()
         {
-            var classUnderTest = new GameParticipantDataProvider(_mockLocalDataStore.Object);
+            var classUnderTest = new ParticipantDataProvider(_mockLocalDataStore.Object);
             var gameParticipants = new[]
             {
-                new GameParticipant
+                new Participant
                 {
                     Name = "TestName",
                     IpAddress = "1.2.3.4"
@@ -90,10 +90,10 @@ namespace BattleshipsServerTests.DataTests
         [Test]
         public async Task SaveUsesCorrectPath()
         {
-            var classUnderTest = new GameParticipantDataProvider(_mockLocalDataStore.Object);
-            var expectedPath = Path.Combine("battleships", "game-participants.json");
+            var classUnderTest = new ParticipantDataProvider(_mockLocalDataStore.Object);
+            var expectedPath = Path.Combine("battleships", "participants.json");
 
-            await classUnderTest.AddItem(new GameParticipant());
+            await classUnderTest.AddItem(new Participant());
 
             _mockLocalDataStore.Verify(x => x.Save(It.Is<string>(s => s == expectedPath), It.IsAny<string>()), Times.Once());
         }

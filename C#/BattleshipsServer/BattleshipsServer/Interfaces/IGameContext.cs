@@ -1,13 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BattleshipsServer.Models;
 
 namespace BattleshipsServer.Interfaces
 {
     public interface IGameContext
     {
-        Task<GameSettings> BeginGame();
-        bool IsGameInProgress();
-        GameSettings GetGameSettings();
-        Task EndGame();
+        Task<GameSettings> StartNewGame(IEnumerable<Guid> participantIds);
+        
+        GameSettings GetGameSettings(Guid gameId);
+        
+        bool IsGameInProgress(Guid gameId);
+        
+        Task EndGame(Guid gameId);
     }
 }

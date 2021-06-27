@@ -4,27 +4,20 @@ using BattleshipsServer.Models;
 
 namespace BattleshipsServer.Processors
 {
-    public class GameParticipantProcessor : IProcessor<GameParticipant>
+    public class GameParticipantProcessor : IProcessor<Participant>
     {
-        private readonly IDataProvider<GameParticipant> _gameParticipantDataStore;
+        private readonly IDataProvider<Participant> _gameParticipantDataStore;
 
-        public GameParticipantProcessor(IDataProvider<GameParticipant> gameParticipantDataStore)
+        public GameParticipantProcessor(IDataProvider<Participant> gameParticipantDataStore)
         {
             Verify.NotNull(gameParticipantDataStore, nameof(gameParticipantDataStore));
 
             _gameParticipantDataStore = gameParticipantDataStore;
         }
 
-        public void Process(GameParticipant request)
+        public void Process(Participant participant)
         {
-            // TODO: Add IP Address
-            var gameParticipant = new GameParticipant
-            {
-                Name = request.Name,
-                //IpAddress = 
-            };
-
-            _gameParticipantDataStore.AddItem(gameParticipant);
+            _gameParticipantDataStore.AddItem(participant);
         }
     }
 }

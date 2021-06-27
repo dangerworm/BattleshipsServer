@@ -9,5 +9,9 @@
     <None Remove="Data\GameParticipantDataProvider.cs~RF3d925a1.TMP" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="battleships\" />
+  </ItemGroup>
+
 
 </Project>

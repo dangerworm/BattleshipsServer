@@ -1,6 +1,9 @@
 ﻿using BattleshipsServer.Data;
 using BattleshipsServer.Interfaces;
+using BattleshipsServer.Models;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
+using BattleshipsServer.Contexts;
 
 namespace BattleshipsServer.Infrastructure
 {
@@ -8,12 +11,15 @@ namespace BattleshipsServer.Infrastructure
     {
         public static IServiceCollection AddContexts(this IServiceCollection services)
         {
-            return services.AddSingleton<IGameContext, GameContext>();
+            return services.AddSingleton<IGameContext, GamesContext>();
         }
 
         public static IServiceCollection AddDataStore(this IServiceCollection services)
         {
-            return services.AddSingleton<IFileDataStore, LocalDataStore>();
+            services.Configure<FileStoreOptions>(options =>
+                options.Path = Path.GetFullPath(Path.Combine(typeof(Program).Assembly.Location, "..", "..", "..", "..")));
+
+            return services.AddTransient<IFileDataStore, LocalDataStore>();
         }
     }
-}
+} 

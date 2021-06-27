@@ -1,6 +1,8 @@
-﻿namespace BattleshipsServer.Models
+﻿using System;
+
+namespace BattleshipsServer.Models
 {
-    public class GameParticipant
+    public class Participant
     {
         public string Name { get; set; }
         public string IpAddress { get; set; }

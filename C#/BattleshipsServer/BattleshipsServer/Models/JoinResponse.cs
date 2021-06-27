@@ -2,6 +2,6 @@
 {
     public class JoinResponse
     {
-       public GameSettings GameSettings { get; set; }
+       public TournamentSettings GameSettings { get; set; }
     }
 }
