@@ -2,11 +2,10 @@ import './App.css';
 import BattleshipsPlayerSetup from '../BattleshipsPlayerSetup/BattleshipsPlayerSetup';
 import React, { useEffect, useRef } from 'react';
 
-
 const App = () => {
     const [eventSource, setEventSource] = React.useState();
     const [players, setPlayers] = React.useState([]);
-
+    
     const playersReference = useRef(players);
 
     useEffect(() => {

@@ -42,6 +42,28 @@ const players = [
 
 run().catch(error => console.log(error));
 
+openResponse = undefined;
+
+const sendPlayers = async () => {
+    let timer = 0;
+    let delay = 2;
+
+    while (timer++ < players.length * delay) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        console.log(`Time is ${timer} ticks`);
+
+        if (timer % delay === 0) {
+            addPlayer(players[(timer / delay) - 1]);
+        }
+    }
+}
+
+const addPlayer = (player) => {
+    openResponse.write('data: ' + JSON.stringify(player));
+    openResponse.write("\n\n");
+}
+
 async function run() {
     const app = express();
 
@@ -56,22 +78,15 @@ async function run() {
             'Connection': 'keep-alive'
         });
         response.flushHeaders();
-
         response.write('retry: 10000\n\n');
 
-        let timer = 0;
+        openResponse = response;
+        await sendPlayers();
+    });
 
-        while (timer < players.length * 3000) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            timer += 1000;
-            console.log(`Time is ${timer / 1000} ticks`);
-
-            if (timer % 3000 === 0) {
-                response.write('data: ' + JSON.stringify(players[(timer / 3000) - 1]));
-                response.write("\n\n");
-            }
-        }
+    app.post('/join', async function (request, response) {
+        const player = request.data;
+        addPlayer(player);
     });
 
     var server = app.listen(process.env.API_PORT, () =>

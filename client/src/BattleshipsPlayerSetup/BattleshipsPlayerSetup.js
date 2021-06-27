@@ -8,7 +8,7 @@ const BattleshipsPlayerSetup = ({ player }) => {
             }
 
             {/* Shows players' ships' locations. Use for debugging only */}
-            {/* {player &&
+            {player &&
                 <table>
                     <thead>
                         <tr>
@@ -25,7 +25,7 @@ const BattleshipsPlayerSetup = ({ player }) => {
                         )}
                     </tbody>
                 </table>
-            } */}
+            }
         </>
     )
 }
