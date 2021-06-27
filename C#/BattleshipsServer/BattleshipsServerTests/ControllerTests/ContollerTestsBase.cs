@@ -24,8 +24,16 @@ namespace BattleshipsServerTests.ControllerTests
 
         protected static void AssertHttpCode(IActionResult result, int statusCode)
         {
-            Assert.That(result.GetType() == typeof(ObjectResult));
-            Assert.That(((ObjectResult)result).StatusCode == statusCode);
+            switch (result.GetType().ToString())
+            {
+                case "ObjectResult":
+                    Assert.That(((ObjectResult)result).StatusCode == statusCode);
+                    break;
+                
+                case "StatusCodeResult":
+                    Assert.That(((StatusCodeResult)result).StatusCode == statusCode);
+                    break;
+            }
         }
     }
 }

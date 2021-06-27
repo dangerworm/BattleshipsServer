@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Game",
+      "launchUrl": "Tournament",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "BattleshipsServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Game",
+      "launchUrl": "Tournament",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

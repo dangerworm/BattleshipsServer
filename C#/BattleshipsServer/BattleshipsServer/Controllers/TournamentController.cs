@@ -36,11 +36,11 @@ namespace BattleshipsServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Begin()
+        public IActionResult CreateNew()
         {
-            _tournamentContext.Begin();
+            var tournamentSettings = _tournamentContext.CreateNew();
 
-            return StatusCode(StatusCodes.Status200OK);
+            return StatusCode(StatusCodes.Status200OK, new { tournamentSettings });
         }
 
         [HttpPost]

@@ -48,7 +48,7 @@ namespace BattleshipsServer
                 //endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Tournament}/{action=Index}/{id?}");
             });
         }
     }

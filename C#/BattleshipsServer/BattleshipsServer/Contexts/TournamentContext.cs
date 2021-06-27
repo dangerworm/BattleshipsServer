@@ -7,7 +7,7 @@ namespace BattleshipsServer.Contexts
     {
         private TournamentSettings _tournamentSettings;
 
-        public void Begin()
+        public TournamentSettings CreateNew()
         {
             _tournamentSettings = new TournamentSettings
             {
@@ -19,6 +19,8 @@ namespace BattleshipsServer.Contexts
                     Height = 10
                 }
             };
+
+            return _tournamentSettings;
         }
 
         public TournamentSettings GetTournamentSettings()

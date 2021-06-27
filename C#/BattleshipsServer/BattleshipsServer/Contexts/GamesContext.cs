@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BattleshipsServer.Contexts
 {
-    public class GamesContext : IGameContext
+    public class GamesContext : IGamesContext
     {
         private readonly IDataProvider<GameSettings> _gameSettingsDataProvider;
 
@@ -28,7 +28,7 @@ namespace BattleshipsServer.Contexts
             _gameSettings = new Dictionary<Guid, GameSettings>();
         }
 
-        public async Task<GameSettings> StartNewGame(IEnumerable<Guid> participantIds)
+        public async Task<GameSettings> CreateNew(IEnumerable<Guid> participantIds)
         {
             var newGameId = _gameIdProvider();
 

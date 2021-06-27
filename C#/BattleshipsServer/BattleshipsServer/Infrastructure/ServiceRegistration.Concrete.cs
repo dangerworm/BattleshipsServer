@@ -11,7 +11,9 @@ namespace BattleshipsServer.Infrastructure
     {
         public static IServiceCollection AddContexts(this IServiceCollection services)
         {
-            return services.AddSingleton<IGameContext, GamesContext>();
+            return services
+                .AddSingleton<ITournamentContext, TournamentContext>()
+                .AddSingleton<IGamesContext, GamesContext>();
         }
 
         public static IServiceCollection AddDataStore(this IServiceCollection services)

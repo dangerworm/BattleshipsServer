@@ -5,9 +5,9 @@ using BattleshipsServer.Models;
 
 namespace BattleshipsServer.Interfaces
 {
-    public interface IGameContext
+    public interface IGamesContext
     {
-        Task<GameSettings> StartNewGame(IEnumerable<Guid> participantIds);
+        Task<GameSettings> CreateNew(IEnumerable<Guid> participantIds);
         
         GameSettings GetGameSettings(Guid gameId);
         

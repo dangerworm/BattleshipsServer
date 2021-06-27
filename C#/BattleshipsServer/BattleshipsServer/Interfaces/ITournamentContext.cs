@@ -4,7 +4,7 @@ namespace BattleshipsServer.Interfaces
 {
     public interface ITournamentContext
     {
-        public void Begin();
+        public TournamentSettings CreateNew();
 
         public TournamentSettings GetTournamentSettings();
 
