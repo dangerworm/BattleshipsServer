@@ -3,6 +3,7 @@ using BattleshipsServer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BattleshipsServer.Models;
 
 namespace BattleshipsServer.Data
 {
@@ -22,32 +23,49 @@ namespace BattleshipsServer.Data
         public async Task AddItem(TData item)
         {
             var serialisedItems = await TryLoad();
-            var updatedItems = JsonListHelper.AddItem(serialisedItems, existingItem => IsMatch(existingItem, item), item);
+
+            var updatedItems = JsonListHelper.AddItem(serialisedItems, 
+                existingItem => IsMatch(existingItem, item), item);
+
+            await _fileDataStore.Save(FilePath, updatedItems);
+        }
+
+        public async Task<IEnumerable<TData>> GetItems()
+        {
+            var serialisedItems = await TryLoad();
+            return JsonListHelper.DeserialiseItems<TData>(serialisedItems);
+        }
+
+        public async Task AddOrEditItem(TData item)
+        {
+            var serialisedItems = await TryLoad();
+
+            var updatedItems = JsonListHelper.AddOrEditItem(serialisedItems, 
+                existingItem => IsMatch(existingItem, item), EditItem, item);
+
+            await _fileDataStore.Save(FilePath, updatedItems);
+        }
+
+        public async Task EditItem(TData item)
+        {
+            var serialisedItems = await TryLoad();
+
+            var updatedItems = JsonListHelper.EditItem(serialisedItems,
+                existingItem => IsMatch(existingItem, item), EditItem, item);
+
             await _fileDataStore.Save(FilePath, updatedItems);
         }
 
         public async Task RemoveItem(TData item)
         {
             var serialisedItems = await TryLoad();
-            var updatedItems = JsonListHelper.RemoveItem<TData>(serialisedItems, existingItem => IsMatch(existingItem, item));
+
+            var updatedItems = JsonListHelper.RemoveItem<TData>(serialisedItems, 
+                existingItem => IsMatch(existingItem, item));
+
             await _fileDataStore.Save(FilePath, updatedItems);
         }
-
-        public Task EditItem(TData item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddOrEditItem(TData newItem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TData>> GetItems()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         private async Task<string> TryLoad()
         {
             try
@@ -65,5 +83,6 @@ namespace BattleshipsServer.Data
         }
 
         protected abstract bool IsMatch(TData existingItem, TData newItem);
+        protected abstract void EditItem(TData existingItem, TData newItem);
     }
 }

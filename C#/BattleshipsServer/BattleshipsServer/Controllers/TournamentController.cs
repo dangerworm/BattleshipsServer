@@ -1,10 +1,13 @@
-﻿using BattleshipsServer.Helpers;
+﻿using BattleshipsServer.Enums;
+using BattleshipsServer.Helpers;
 using BattleshipsServer.Interfaces;
 using BattleshipsServer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BattleshipsServer.Controllers
 {
@@ -13,26 +16,17 @@ namespace BattleshipsServer.Controllers
     public class TournamentController : ControllerBase
     {
         private readonly ILogger<TournamentController> _logger;
-        private readonly IProcessor<Participant> _participantProcessor;
         private readonly ITournamentContext _tournamentContext;
-        private readonly IValidator _validator;
-
 
         public TournamentController(
             ILogger<TournamentController> logger,
-            IProcessor<Participant> participantProcessor,
-            ITournamentContext tournamentContext,
-            IValidator validator)
+            ITournamentContext tournamentContext)
         {
             Verify.NotNull(logger, nameof(logger));
-            Verify.NotNull(participantProcessor, nameof(participantProcessor));
             Verify.NotNull(tournamentContext, nameof(tournamentContext));
-            Verify.NotNull(validator, nameof(validator));
 
             _logger = logger;
-            _participantProcessor = participantProcessor;
             _tournamentContext = tournamentContext;
-            _validator = validator;
         }
 
         [HttpPost]
@@ -44,39 +38,104 @@ namespace BattleshipsServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register([FromBody] Participant participant)
+        public Task<IActionResult> Register([FromBody] Participant participant)
         {
-            if (_tournamentContext.GetTournamentSettings() == null)
+            return HandleRegistration(participant, ProcessorOperation.Add);
+        }
+
+        [HttpPost]
+        public Task<IActionResult> EditRegistration([FromBody] Participant participant)
+        {
+            return HandleRegistration(participant, ProcessorOperation.Edit);
+        }
+
+        [HttpPost]
+        public IActionResult Begin()
+        {
+            try
             {
-                return StatusCode(
-                    StatusCodes.Status409Conflict,
-                    new { errors = new[] { "The tournament has not yet begun"} }
-                );
+                _tournamentContext.Begin();
+                return StatusCode(StatusCodes.Status200OK);
             }
-
-            var validatorResult = _validator.Validate(participant);
-            if (!validatorResult.IsValid)
+            catch (Exception exception)
             {
-                return StatusCode(
-                    StatusCodes.Status400BadRequest,
-                    new { errors = validatorResult.Errors.ToArray() }
+                return StatusCode(StatusCodes.Status412PreconditionFailed, new
+                    {
+                        success = false,
+                        message = exception.Message
+                    }
                 );
+
             }
-
-            _participantProcessor.Process(participant);
-
-            return StatusCode(
-                StatusCodes.Status200OK,
-                new { messsage = "You have been registered as a participant in the Battleships tournament." }
-            );
         }
 
         [HttpPost]
         public IActionResult End()
         {
-            _tournamentContext.End();
+            try
+            {
+                _tournamentContext.End();
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status412PreconditionFailed, new
+                    {
+                        success = false,
+                        message = exception.Message
+                    }
+                );
 
-            return StatusCode(StatusCodes.Status200OK);
+            }
+        }
+
+        private async Task<IActionResult> HandleRegistration(Participant participant, ProcessorOperation operation)
+        {
+            if (_tournamentContext.GetTournamentSettings() == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status409Conflict,
+                    new { errors = new[] { "The tournament has not yet begun" } }
+                );
+            }
+
+            var result = await _tournamentContext.ProcessParticipant(participant, operation);
+
+            if (!result.ValidatorResult.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new
+                    {
+                        message = result.Message,
+                        errors = result.ValidatorResult.Errors.ToArray()
+                    }
+                );
+            }
+
+            if (result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, new
+                {
+                    success = result.IsSuccess,
+                    tournamentSettings = _tournamentContext.GetTournamentSettings()
+                });
+            }
+
+            switch (operation)
+            {
+                case ProcessorOperation.Add:
+                    return StatusCode(StatusCodes.Status409Conflict, new
+                    {
+                        message = result.Message
+                    });
+                case ProcessorOperation.Edit:
+                    return StatusCode(StatusCodes.Status422UnprocessableEntity, new
+                    {
+                        message = result.Message,
+                        tournamentSettings = _tournamentContext.GetTournamentSettings()
+                    });
+                default:
+                    throw new InvalidOperationException();
+            };
         }
     }
 }

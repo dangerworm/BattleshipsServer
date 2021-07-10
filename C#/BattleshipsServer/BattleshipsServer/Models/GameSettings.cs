@@ -7,6 +7,6 @@ namespace BattleshipsServer.Models
     {
         public Guid GameId { get; set; }
         
-        public IEnumerable<Guid> ParticipantIds { get; set; }
+        public IEnumerable<string> ParticipantNames { get; set; }
     }
 }

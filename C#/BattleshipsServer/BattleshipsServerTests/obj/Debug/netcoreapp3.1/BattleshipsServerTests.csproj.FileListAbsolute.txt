@@ -102,3 +102,4 @@ D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServerTests\obj
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServerTests\bin\Debug\netcoreapp3.1\Castle.Core.dll
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServerTests\bin\Debug\netcoreapp3.1\Moq.dll
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServerTests\obj\Debug\netcoreapp3.1\BattleshipsServerTests.csproj.CoreCompileInputs.cache
+D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServerTests\bin\Debug\netcoreapp3.1\battleships\participants.json

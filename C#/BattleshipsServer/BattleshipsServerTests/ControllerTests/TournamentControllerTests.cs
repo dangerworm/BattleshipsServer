@@ -1,4 +1,5 @@
-﻿using BattleshipsServer.Controllers;
+﻿using System.Threading.Tasks;
+using BattleshipsServer.Controllers;
 using BattleshipsServer.Interfaces;
 using BattleshipsServer.Models;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,7 @@ namespace BattleshipsServerTests.ControllerTests
         }
 
         [Test]
-        public void RegisterReturns409IfTournamentHasNotBegun()
+        public async Task RegisterReturns409IfTournamentHasNotBegun()
         {
             _mockTournamentContext
                 .Setup(x => x.GetTournamentSettings())
@@ -43,13 +44,13 @@ namespace BattleshipsServerTests.ControllerTests
 
             var tournamentController = new TournamentController(_mockLogger.Object, MockParticipantProcessor.Object, _mockTournamentContext.Object, MockValidator.Object);
 
-            var result = tournamentController.Register(new Participant());
+            var result = await tournamentController.Register(new Participant());
 
             AssertHttpCode(result, StatusCodes.Status409Conflict);
         }
 
         [Test]
-        public void RegisterReturns400IfParticipantIsInvalid()
+        public async Task RegisterReturns400IfParticipantIsInvalid()
         {
             _mockTournamentContext
                 .Setup(x => x.GetTournamentSettings())
@@ -65,7 +66,7 @@ namespace BattleshipsServerTests.ControllerTests
 
             var tournamentController = new TournamentController(_mockLogger.Object, MockParticipantProcessor.Object, _mockTournamentContext.Object, MockValidator.Object);
 
-            var result = tournamentController.Register(new Participant());
+            var result = await tournamentController.Register(new Participant());
 
             AssertHttpCode(result, StatusCodes.Status400BadRequest);
         }

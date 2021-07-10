@@ -24,6 +24,11 @@ namespace BattleshipsServer.Validators
                 validatorResult.Errors.Add($"{nameof(value.IpAddress)} is null or whitespace");
             }
 
+            if (value?.Port == default(int))
+            {
+                validatorResult.Errors.Add($"{nameof(value.Port)} is missing or set to zero");
+            }
+
             return validatorResult;
         }
     }

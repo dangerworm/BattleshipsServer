@@ -30,7 +30,8 @@ namespace BattleshipsServerTests.ValidatorTests
             var participant = new Participant
             {
                 Name = "",
-                IpAddress = "1.2.3.4"
+                IpAddress = "1.2.3.4",
+                Port = 1234
             };
 
             var result = _participantValidator.Validate(participant);
@@ -45,12 +46,29 @@ namespace BattleshipsServerTests.ValidatorTests
             var participant = new Participant
             {
                 Name = "Test",
-                IpAddress = ""
+                IpAddress = "",
+                Port = 1234
             };
 
             var result = _participantValidator.Validate(participant);
 
             Assert.Greater(result.Errors.Count(e => e.Contains("IpAddress")), 0);
+            Assert.False(result.IsValid);
+        }
+
+        [Test]
+        public void ParticipantValidatorReturnsInvalidIfParticipantPortIsZero()
+        {
+            var participant = new Participant
+            {
+                Name = "Test",
+                IpAddress = "1.2.3.4",
+                Port = 0
+            };
+
+            var result = _participantValidator.Validate(participant);
+
+            Assert.Greater(result.Errors.Count(e => e.Contains("Port")), 0);
             Assert.False(result.IsValid);
         }
     }

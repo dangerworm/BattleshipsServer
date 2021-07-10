@@ -7,5 +7,6 @@ namespace BattleshipsServer.Models
         public string Game { get; set; }
         public string Variation { get; set; }
         public GameBoardSettings GameBoardSettings { get; set; }
+        public bool InProgress { get; set; }
     }
 }

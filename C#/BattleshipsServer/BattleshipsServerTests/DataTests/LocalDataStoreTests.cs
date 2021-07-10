@@ -53,7 +53,8 @@ namespace BattleshipsServerTests.DataTests
                 new Participant
                 {
                     Name = "TestName",
-                    IpAddress = "1.2.3.4"
+                    IpAddress = "1.2.3.4",
+                    Port = 1234
                 }
             };
             
@@ -74,7 +75,8 @@ namespace BattleshipsServerTests.DataTests
                 new Participant
                 {
                     Name = "TestName",
-                    IpAddress = "1.2.3.4"
+                    IpAddress = "1.2.3.4",
+                    Port = 1234
                 }
             };
             var gameParticipantsJson = JsonSerializer.Serialize(gameParticipants,

@@ -1,12 +1,16 @@
-﻿namespace BattleshipsServer.Interfaces
+﻿using System.Threading.Tasks;
+using BattleshipsServer.Enums;
+using BattleshipsServer.Processors;
+
+namespace BattleshipsServer.Interfaces
 {
     public interface IProcessor
     {
-        void Process<T>(T item);
+        Task<ProcessorResult> Process<T>(T item, ProcessorOperation operation);
     }
 
     public interface IProcessor<T>
     {
-        void Process(T item);
+        Task<ProcessorResult> Process(T item, ProcessorOperation operation);
     }
 }

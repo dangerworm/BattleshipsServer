@@ -3,6 +3,7 @@ using BattleshipsServer.Interfaces;
 using BattleshipsServer.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BattleshipsServer.Contexts
@@ -28,14 +29,14 @@ namespace BattleshipsServer.Contexts
             _gameSettings = new Dictionary<Guid, GameSettings>();
         }
 
-        public async Task<GameSettings> CreateNew(IEnumerable<Guid> participantIds)
+        public async Task<GameSettings> CreateNew(IEnumerable<Participant> participants)
         {
             var newGameId = _gameIdProvider();
 
             var newGame = new GameSettings
             {
                 GameId = newGameId,
-                ParticipantIds = participantIds,
+                ParticipantNames = participants.Select(p => p.Name),
                 Game = "battleships",
                 Variation = "",
                 GameBoardSettings = new GameBoardSettings
@@ -45,7 +46,7 @@ namespace BattleshipsServer.Contexts
                 }
             };
 
-            await _gameSettingsDataProvider.AddItem(newGame);
+            await _gameSettingsDataProvider.AddOrEditItem(newGame);
             _gameSettings.Add(newGameId, newGame);
 
             return newGame;

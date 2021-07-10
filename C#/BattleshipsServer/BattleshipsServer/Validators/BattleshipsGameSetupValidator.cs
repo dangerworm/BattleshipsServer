@@ -8,7 +8,12 @@ namespace BattleshipsServer.Validators
         public ValidatorResult Validate(BattleshipsGameSetup value)
         {
             var validatorResult = new ValidatorResult();
-            
+
+            if (value == null)
+            {
+                validatorResult.Errors.Add("Request is null");
+            }
+
             return validatorResult;
         }
     }

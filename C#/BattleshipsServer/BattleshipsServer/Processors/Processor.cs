@@ -3,6 +3,8 @@ using BattleshipsServer.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using BattleshipsServer.Enums;
 
 namespace BattleshipsServer.Processors
 {
@@ -19,9 +21,9 @@ namespace BattleshipsServer.Processors
             _processors = new Dictionary<Type, object>();
         }
 
-        public void Process<T>(T item)
+        public Task<ProcessorResult> Process<T>(T item, ProcessorOperation operation)
         {
-            GetProcessor<T>().Process(item);
+            return GetProcessor<T>().Process(item, operation);
         }
 
         private IProcessor<T> GetProcessor<T>()

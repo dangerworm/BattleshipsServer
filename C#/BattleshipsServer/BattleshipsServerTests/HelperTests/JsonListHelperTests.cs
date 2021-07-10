@@ -16,7 +16,8 @@ namespace BattleshipsServerTests.HelperTests
                 new Participant
                 {
                     Name = "TestName",
-                    IpAddress = "1.2.3.4"
+                    IpAddress = "1.2.3.4", 
+                    Port = 1234
                 }
             };
 
@@ -38,7 +39,8 @@ namespace BattleshipsServerTests.HelperTests
                 new Participant
                 {
                     Name = "TestName",
-                    IpAddress = "1.2.3.4"
+                    IpAddress = "1.2.3.4",
+                    Port = 1234
                 }
             };
 

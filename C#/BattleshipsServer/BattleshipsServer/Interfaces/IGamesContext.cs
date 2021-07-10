@@ -7,7 +7,7 @@ namespace BattleshipsServer.Interfaces
 {
     public interface IGamesContext
     {
-        Task<GameSettings> CreateNew(IEnumerable<Guid> participantIds);
+        Task<GameSettings> CreateNew(IEnumerable<Participant> participants);
         
         GameSettings GetGameSettings(Guid gameId);
         

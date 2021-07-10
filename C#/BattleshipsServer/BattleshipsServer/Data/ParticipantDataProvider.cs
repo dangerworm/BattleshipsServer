@@ -17,7 +17,12 @@ namespace BattleshipsServer.Data
 
         protected override bool IsMatch(Participant existingItem, Participant newItem)
         {
-            return existingItem.Name == newItem.Name && existingItem.IpAddress == newItem.IpAddress;
+            return existingItem.Name == newItem.Name;
+        }
+
+        protected override void EditItem(Participant existingItem, Participant newItem)
+        {
+            existingItem.IpAddress = newItem.IpAddress;
         }
     }
 }

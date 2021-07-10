@@ -18,3 +18,5 @@ D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\obj\Debu
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\obj\Debug\netcoreapp3.1\BattleshipsServer.dll
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\obj\Debug\netcoreapp3.1\BattleshipsServer.pdb
 D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\obj\Debug\netcoreapp3.1\BattleshipsServer.genruntimeconfig.cache
+D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\bin\Debug\netcoreapp3.1\battleships\participants.json
+D:\GitHub\dangerworm\Battleships\C#\BattleshipsServer\BattleshipsServer\bin\Debug\netcoreapp3.1\battleships\game-settings.json
